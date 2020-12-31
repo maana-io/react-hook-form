@@ -1139,7 +1139,12 @@ export function useForm<
             errors: {},
             isSubmitting: true,
           });
-          await onValid(fieldValues, e);
+
+          // * clean object with JSON.stringify/parse
+          const cleanFieldValues = JSON.parse(JSON.stringify(fieldValues));
+
+          // * call the provided onSubmit callback
+          await onValid(cleanFieldValues, e);
         } else {
           formStateRef.current.errors = {
             ...formStateRef.current.errors,

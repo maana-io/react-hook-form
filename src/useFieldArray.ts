@@ -27,6 +27,11 @@ import {
   UseFieldArrayMethods,
 } from './types';
 
+// interface ExtendedFieldArrayValues extends FieldValues {
+//   __restore?: () => any;
+//   value: any;
+// }
+
 const mapIds = <
   TFieldArrayValues extends FieldValues = FieldValues,
   TKeyName extends string = 'id'
@@ -57,10 +62,34 @@ const mapIds = <
     }
   }
 
-  return values.map((value: Partial<TFieldArrayValues>) => ({
-    [keyName]: value[keyName] || generateId(),
-    ...value,
-  }));
+  // @ts-ignore
+  return values.map((value: Partial<TFieldArrayValues>) => {
+    const newValue = {
+      // * this is one potential way to restore the value for flat arrays
+      // __restore: () => value,
+
+      // ? but what about toJSON()?
+      // ? this will run whenever JSON.stringify is called on this object
+      // ? we could use this to reshape the objects
+      toJSON: () => value,
+
+      [keyName]: value[keyName] || generateId(),
+    };
+
+    // * if it's an object, spread it
+    if (typeof value === 'object') {
+      return {
+        ...newValue,
+        ...value,
+      };
+    }
+
+    // * otherwise, set it to a `value` property (to support flat arrays)
+    return {
+      ...newValue,
+      value,
+    };
+  });
 };
 
 export const useFieldArray = <

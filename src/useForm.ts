@@ -1141,7 +1141,16 @@ export function useForm<
           });
 
           // * clean object with JSON.stringify/parse
-          const cleanFieldValues = JSON.parse(JSON.stringify(fieldValues));
+          const cleanFieldValues = JSON.parse(
+            JSON.stringify(fieldValues, (_key, value) => {
+              if (Array.isArray(value)) {
+                // flatten array
+                return value.map((field) => field.value);
+              }
+
+              return value;
+            }),
+          );
 
           // * call the provided onSubmit callback
           await onValid(cleanFieldValues, e);

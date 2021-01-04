@@ -1,7 +1,8 @@
 {
-  "name": "react-hook-form",
+  "name": "@maana-io/react-hook-form",
   "description": "Performant, flexible and extensible forms library for React Hooks",
   "version": "6.13.1",
+  "private": true,
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "umd:main": "dist/index.umd.production.min.js",
@@ -47,7 +48,7 @@
     "cypress": "cypress run",
     "cypress:open": "cypress open",
     "cypress:parallel": "cypress-parallel -s cypress -t 4 -d -a",
-    "prepublishOnly": "npm run lint && npm run lint:types && npm test && npm run build",
+    "prepublishOnly": "npm run lint && npm run lint:types && npm run build",
     "bundlesize": "npm run build:modern && bundlesize",
     "start:app": "npm run build:esm && yarn link && yarn --cwd node_modules/react link && yarn --cwd ./app link react react-hook-form && yarn --cwd ./app && yarn --cwd ./app run start",
     "changeset": "changeset",

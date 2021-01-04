@@ -65,14 +65,6 @@ const mapIds = <
   // @ts-ignore
   return values.map((value: Partial<TFieldArrayValues>) => {
     const newValue = {
-      // * this is one potential way to restore the value for flat arrays
-      // __restore: () => value,
-
-      // ? but what about toJSON()?
-      // ? this will run whenever JSON.stringify is called on this object
-      // ? we could use this to reshape the objects
-      toJSON: () => value,
-
       [keyName]: value[keyName] || generateId(),
     };
 

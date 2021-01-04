@@ -1145,7 +1145,9 @@ export function useForm<
             JSON.stringify(fieldValues, (_key, value) => {
               if (Array.isArray(value)) {
                 // flatten array
-                return value.map((field) => field.value);
+                return value.map((field) =>
+                  field.value ? field.value : field,
+                );
               }
 
               return value;
